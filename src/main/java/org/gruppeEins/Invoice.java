@@ -2,7 +2,7 @@ package org.gruppeEins;
 
 public class Invoice
 {
-    private int ID;
+    private int id;
     private static int nextID = 1;
     private ChargingSession chargingSession;
     private String name;
@@ -10,7 +10,7 @@ public class Invoice
 
     protected Invoice(ChargingSession chargingSession, String name, double amount)
     {
-        this.ID = nextID++;
+        this.id = nextID++;
         this.chargingSession = chargingSession;
         this.name = name;
         this.amount = amount;

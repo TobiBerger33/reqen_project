@@ -1,6 +1,6 @@
 package org.gruppeEins;
 
-public enum ChargoingType
+public enum ChargingType
 {
     AC,
     DC

@@ -2,13 +2,13 @@ package org.gruppeEins;
 
 public class PriceSnapshot
 {
-    private int ID;
+    private int id;
     private static  int nextID = 1;
     private double price;
 
     protected PriceSnapshot(double price)
     {
-        ID = nextID++;
+        id = nextID++;
         this.price = price;
     }
 }

@@ -6,6 +6,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+//import static org.junit.jupiter.api.Assertions.*;
+
 public class StepDef_add_charging_point
 {
     @Given("a location {string} exists in the system")

@@ -2,13 +2,13 @@ package org.gruppeEins;
 
 public class LocationManager
 {
-    private int ID;
+    private int id;
     private static int nextID = 1;
     private String name;
 
     protected LocationManager(String name)
     {
-        ID = nextID++;
+        id = nextID++;
         this.name = name;
     }
 }

@@ -2,15 +2,15 @@ package org.gruppeEins;
 
 public class Station
 {
-    private int ID;
-    private static int nextID = 1;
-    private ChargoingType type;
+    private int id;
+    protected static int nextID = 1;
+    private ChargingType type;
     private ChargingStatus status;
     private final Location location;
 
-    protected Station(ChargoingType type, ChargingStatus status, Location location)
+    protected Station(ChargingType type, ChargingStatus status, Location location)
     {
-        this.ID = nextID++;
+        this.id = nextID++;
         this.type = type;
         this.status = status;
         this.location = location;
@@ -21,7 +21,7 @@ public class Station
         this.status = status;
     }
 
-    protected void updateType(ChargoingType type)
+    protected void updateType(ChargingType type)
     {
         this.type = type;
     }
