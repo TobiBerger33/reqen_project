@@ -3,10 +3,12 @@ package org.gruppeEins;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.HashMap;
 
 public class LocationManager {
 
     private final List<Location> locations = new ArrayList<>();
+    private HashMap<String, Location> locations = new HashMap<>();
 
     public void addLocation(Location location) {
         if (location != null) {
@@ -44,4 +46,19 @@ public class LocationManager {
                 "locations=" + locations +
                 '}';
     }
+
+//    public String getName()
+//    {
+//        return name;
+//    }
+//
+//    public void addLocation(Location location)
+//    {
+//        locations.put(location.getName(), location);
+//    }
+//
+//    public Location getLocations(String name)
+//    {
+//        return locations.get(name);
+//    }
 }

@@ -19,6 +19,15 @@ public class Station {
         }
     }
 
+
+    public Station(int id, ChargingType type, ChargingStatus status, Location location) {
+        this.id = id;
+        this.type = type;
+        this.status = status;
+        this.location = location;
+        location.addStation(this);
+    }
+
     public void updateStatus(ChargingStatus status) {
         this.status = status;
     }
