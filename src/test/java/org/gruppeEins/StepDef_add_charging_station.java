@@ -10,18 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDef_add_charging_station
 {
-    private LocationManager locationManager;
-    private Address address;
-    private PriceCatalog priceCat;
+    private final LocationManager locationManager = new LocationManager("locManger");
+    private final Address address = new Address("1234", "Street", "City", 123, "Country");
+    private final PriceCatalog priceCat = new PriceCatalog(20.00);
     private Location cityCenter;
+    private Location airport;
+    private Location unknownPlaza;
     private Station newStation;
+    private Station newnewStation;
 
     @Given("a location {string} exists in the system")
     public void aLocationExistsInTheSystem(String arg0)
     {
-        locationManager = new LocationManager("locManger");
-        address = new Address("1234", "Street", "City", 123, "Country");
-        priceCat = new PriceCatalog(20.00);
         cityCenter = new Location(locationManager, arg0, address, priceCat);
     }
 
@@ -58,32 +58,46 @@ public class StepDef_add_charging_station
     }
 
 
-    @Given("a location {string} exists with a charging point {string}")
+    @Given("a location {string} exists with a charging point with identifier {string}")
     public void aLocationExistsWithAChargingPoint(String arg0, String arg1)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        airport = new Location(locationManager, arg0, address, priceCat);
+
+        int id = Integer.parseInt(arg1);
+        newStation = new Station(id, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, airport);
     }
 
-    @When("I try to add another charging point with identifier {string} to {string}")
-    public void iTryToAddAnotherChargingPointWithIdentifierTo(String arg0, String arg1)
+    @When("I try to add another charging point with identifier {string} to the same location")
+    public void iTryToAddAnotherChargingPointWithIdentifierToTheSameLocation(String arg0)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        int id = Integer.parseInt(arg0);
+        assertThrows(IllegalArgumentException.class, () -> {newnewStation = new Station(id, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, airport);});
+
     }
 
     @Then("the system rejects the request")
     public void theSystemRejectsTheRequest()
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        int id = 200;
+        assertThrows(IllegalArgumentException.class, () -> {newnewStation = new Station(id, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, airport);});
     }
 
     @And("I see an error message {string}")
     public void iSeeAnErrorMessage(String arg0)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        int id = 200;
+        String message = "";
+
+        try
+        {
+            newnewStation = new Station(id, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, airport);
+        }
+        catch (IllegalArgumentException e)
+        {
+            message = e.getMessage();
+        }
+
+        assertEquals(message, arg0);
     }
 
 
@@ -91,14 +105,32 @@ public class StepDef_add_charging_station
     @When("I try to add a charging point with identifier {string} of type {string} to the location {string}")
     public void iTryToAddAChargingPointWithIdentifierOfTypeToTheLocation(String arg0, String arg1, String arg2)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        int id = Integer.parseInt(arg0);
+        ChargingType type = ChargingType.valueOf(arg1);
+
+        assertThrows(NullPointerException.class, () -> {newStation = new Station(id, type, ChargingStatus.IN_OPERATION_FREE, unknownPlaza);});
+    }
+
+    @Then("I see the error message {string}")
+    public void iSeeTheErrorMessage(String arg0)
+    {
+        String message = "";
+
+        try
+        {
+            newStation = new Station(300, ChargingType.DC, ChargingStatus.IN_OPERATION_FREE, unknownPlaza);
+        }
+        catch (NullPointerException e)
+        {
+            message = e.getMessage();
+        }
+
+        assertEquals(message, arg0);
     }
 
     @And("the charging point is not created")
     public void theChargingPointIsNotCreated()
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertNull(newStation);
     }
 }

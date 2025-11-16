@@ -14,13 +14,12 @@ Feature: add charging point
     And it is visible under the location
 
   Scenario: Attempt to add a charging point with a duplicate identifier
-    Given a location "Airport Station" exists with a charging point "200"
-    When I try to add another charging point with identifier "200" to "Airport Station"
+    Given a location "Airport Station" exists with a charging point with identifier "200"
+    When I try to add another charging point with identifier "200" to the same location
     Then the system rejects the request
     And I see an error message "Charging point identifier already exists at this location"
 
   Scenario: Add charging point to a non-existent location
     When I try to add a charging point with identifier "300" of type "DC" to the location "Unknown Plaza"
-    Then the system rejects the request
-    And I see an error message "Location not found"
+    Then I see the error message "Location not found"
     And the charging point is not created
