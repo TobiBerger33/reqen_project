@@ -19,7 +19,20 @@ public class Station {
         }
     }
 
-    public void updateStatus(ChargingStatus status) {
+    public Station(int id, ChargingType type, ChargingStatus status, Location location) {
+        this.id = id;
+        this.type = type;
+        this.status = status;
+        this.location = location;
+    }
+
+    public ChargingStatus getStatus()
+    {
+        return status;
+    }
+
+    public void updateStatus(ChargingStatus status)
+    {
         this.status = status;
     }
 
@@ -49,6 +62,26 @@ public class Station {
 
     public Location getLocation() {
         return location;
+    }
+
+    public String printStatus()
+    {
+        String statusTxt;
+
+        switch (status) {
+            case IN_OPERATION_FREE:
+                statusTxt = "IN OPERATION and FREE";
+                break;
+            case IN_OPERATION_OCCUPIED:
+                statusTxt = "IN OPERATION but OCCUPIED";
+                break;
+            default:
+                statusTxt = "OUT OF ORDER";
+        }
+
+        String message = "Station " + id + " is " + statusTxt;
+
+        return message;
     }
 
     // Setter for location
