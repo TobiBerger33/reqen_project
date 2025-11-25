@@ -1,5 +1,7 @@
 package org.gruppeEins;
 
+import java.util.ArrayList;
+
 public class Station {
 
     private static int nextID = 0;
@@ -17,6 +19,30 @@ public class Station {
         if (location != null) {
             location.addStation(this);
         }
+    }
+
+    public Station(int id, ChargingType type, ChargingStatus status, Location location)
+    {
+        if(location != null)
+        {
+            if(ableToAdd(id, location))
+            {
+                this.id = id;
+                this.type = type;
+                this.status = status;
+                this.location = location;
+                location.addStation(this);
+            }
+            else
+            {
+                throw new IllegalArgumentException("Charging point identifier already exists at this location");
+            }
+        }
+        else
+        {
+            throw new NullPointerException("Location not found");
+        }
+
     }
 
     public void updateStatus(ChargingStatus status) {
@@ -45,6 +71,21 @@ public class Station {
 
     public ChargingStatus getStatus() {
         return status;
+    }
+
+    private boolean ableToAdd(int id, Location location)
+    {
+        ArrayList<Station> stations = (ArrayList<Station>) location.getStations();
+
+        for(Station station : stations)
+        {
+            if(station.getId() == id)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Location getLocation() {
