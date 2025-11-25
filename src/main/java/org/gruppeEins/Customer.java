@@ -1,13 +1,16 @@
 package org.gruppeEins;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
 
     private static int nextID = 0;
-    private final int id;
+    private int id;
     private String name;
     private String email;
     private double credit = 0.00;
-    private static List<String> emailList= new ArrayList<>();
+    private static final List<String> emailList= new ArrayList<>();
 
     public Customer(String name, String email, double initialCredit) {
         this.id = ++nextID;
@@ -51,7 +54,8 @@ public class Customer {
         this.name = name;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
