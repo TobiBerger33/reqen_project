@@ -1,4 +1,5 @@
 Feature: View and top up balance
+
   As a customer, I want to be able to see and top up my balance,
   so that I always have enough funds to carry out charging processes.
 

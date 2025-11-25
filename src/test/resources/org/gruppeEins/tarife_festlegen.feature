@@ -1,4 +1,5 @@
 Feature: charging tariffs
+
   As an operator
   I want to be able to define rates for charging
   in order to offer customers consistent and transparent prices

@@ -1,4 +1,5 @@
 Feature: Add new locations
+
   As an operator
   I want to create new locations in the system
   In order to make new operating sites quickly available and visible in the network.

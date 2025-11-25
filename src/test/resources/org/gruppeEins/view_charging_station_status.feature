@@ -1,8 +1,8 @@
 Feature: view charging station status
 
-As an operator or customer
-I want to see the current status of each charging station
-in order to see whether a station is available, in use, or out of service.
+  As an operator or customer
+  I want to see the current status of each charging station
+  in order to see whether a station is available, in use, or out of service.
 
   Scenario: Viewing an available charging station
     Given a charging station "101" exists with status "IN_OPERATION_FREE"

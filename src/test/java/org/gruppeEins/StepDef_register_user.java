@@ -8,13 +8,13 @@ import io.cucumber.java.en.And;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class StepDef_register_user
-{
-    Customer customer;
-    Customer newCustomer;
-    String currentName;
-    String currentEmail;
-    String message;
+public class StepDef_register_user {
+
+    private Customer customer;
+    private Customer newCustomer;
+    private String currentName;
+    private String currentEmail;
+    private String message;
 
 
     @Given("I am a new user without an existing account")

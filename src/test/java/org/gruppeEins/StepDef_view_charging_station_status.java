@@ -1,23 +1,23 @@
 package org.gruppeEins;
 
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import java.time.LocalDateTime;
+import io.cucumber.java.en.Then;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StepDef_view_charging_station_status
-{
+import java.time.LocalDateTime;
 
-    Address address = new Address("1234", "Street", "City", 123, "Country");
-    PriceCatalog priceCat = new PriceCatalog(LocalDateTime.now(), 0.40, 0.60, 0.10, 0.10);
-    Location location = new Location(address, priceCat);
-    ChargingStatus givenStatus;
-    ChargingStatus actualStatus;
-    Station newStation;
-    String message;
+
+public class StepDef_view_charging_station_status {
+
+    private final Address address = new Address("1234", "Street", "City", 123, "Country");
+    private final PriceCatalog priceCat = new PriceCatalog(LocalDateTime.now(), 0.40, 0.60, 0.10, 0.10);
+    private final Location location = new Location(address, priceCat);
+    private ChargingStatus givenStatus;
+    private ChargingStatus actualStatus;
+    private Station newStation;
+    private String message;
 
     @Given("a charging station {string} exists with status {string}")
     public void aChargingStationExistsWithStatus(String arg0, String arg1)

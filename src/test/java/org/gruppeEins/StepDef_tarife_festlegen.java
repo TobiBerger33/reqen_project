@@ -1,12 +1,14 @@
 package org.gruppeEins;
 
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+
 
 public class StepDef_tarife_festlegen {
 
@@ -91,7 +93,14 @@ public class StepDef_tarife_festlegen {
         Address address = new Address("1200", "Hoechstaedtplatz", "Vienna", 6, "Austria");
 
         currentLocation = new Location(address, currentPriceCatalog);
-        locationManager.addLocation(currentLocation);
+        try
+        {
+            locationManager.addLocation(currentLocation);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
 
         for (int i = 0; i < stationCount; i++) {
             Station station = new Station(ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, currentLocation);
