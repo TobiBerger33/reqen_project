@@ -1,14 +1,47 @@
 package org.gruppeEins;
 
-public class LocationManager
-{
-    private int id;
-    private static int nextID = 1;
-    private String name;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-    protected LocationManager(String name)
-    {
-        id = nextID++;
-        this.name = name;
+public class LocationManager {
+
+    private final List<Location> locations = new ArrayList<>();
+
+    public void addLocation(Location location) {
+        if (location != null) {
+            locations.add(location);
+        }
+    }
+
+    public Optional<Location> getLocationById(int id) {
+        return locations.stream()
+                .filter(location -> location.getId() == id)
+                .findFirst();
+    }
+
+    public void updateLocation(Location updatedLocation) {
+        if (updatedLocation == null) {
+            return;
+        }
+        getLocationById(updatedLocation.getId()).ifPresent(existingLocation -> {
+            int index = locations.indexOf(existingLocation);
+            locations.set(index, updatedLocation);
+        });
+    }
+
+    public void removeLocation(int id) {
+        locations.removeIf(location -> location.getId() == id);
+    }
+
+    public List<Location> getAllLocations() {
+        return new ArrayList<>(locations);
+    }
+
+    @Override
+    public String toString() {
+        return "LocationManager{" +
+                "locations=" + locations +
+                '}';
     }
 }

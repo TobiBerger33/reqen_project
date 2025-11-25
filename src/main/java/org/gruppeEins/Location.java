@@ -1,23 +1,62 @@
 package org.gruppeEins;
 
-public class Location
-{
-    private int id;
-    private static int nextID = 1;
-    private LocationManager manager;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Location {
+
+    private static int nextID = 0;
+    private final int id;
     private Address address;
     private PriceCatalog priceCatalog;
+    private final List<Station> stations = new ArrayList<>();
 
-    public Location(LocationManager manager, Address address, PriceCatalog priceCatalog)
-    {
-        this.id = nextID;
-        this.manager = manager;
+    public Location(Address address, PriceCatalog priceCatalog) {
+        this.id = ++nextID;
         this.address = address;
         this.priceCatalog = priceCatalog;
     }
 
-    public PriceCatalog getPriceCatalog()
-    {
+    public void addStation(Station station) {
+        if (station != null && !stations.contains(station)) {
+            stations.add(station);
+        }
+    }
+
+    public void rmStation(Station station) {
+        stations.remove(station);
+    }
+
+    // The diagram shows updateLocation(), which could mean updating the address or price catalog
+    public void updateLocation(Address address, PriceCatalog priceCatalog) {
+        this.address = address;
+        this.priceCatalog = priceCatalog;
+    }
+
+    // Getters
+    public int getId() {
+        return id;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public PriceCatalog getPriceCatalog() {
         return priceCatalog;
+    }
+
+    public List<Station> getStations() {
+        // Return a copy to prevent external modification
+        return new ArrayList<>(stations);
+    }
+
+    // Setters
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setPriceCatalog(PriceCatalog priceCatalog) {
+        this.priceCatalog = priceCatalog;
     }
 }
