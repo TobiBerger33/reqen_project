@@ -1,8 +1,8 @@
 Feature: create invoice
 
-As an operator
-I want to be able to generate invoices for completed charging processes or billing periods
-in order to provide my customers with accurate and transparent billing.
+  As an operator
+  I want to be able to generate invoices for completed charging processes or billing periods
+  in order to provide my customers with accurate and transparent billing.
 
   Scenario: Generate an invoice for a completed charging process
     Given a completed charging process with identifier "101" exists with a total cost of "15.20" EUR

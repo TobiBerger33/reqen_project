@@ -21,5 +21,5 @@ Feature: add charging point
 
   Scenario: Add charging point to a non-existent location
     When I try to add a charging point with identifier "300" of type "DC" to a location
-    Then I see the error message "Location not found"
+    Then I see the following error message "Location not found"
     And the charging point is not created

@@ -1,8 +1,8 @@
 Feature: register user
 
-As a customer
-I want to create my own account
-in order to use the charging services, manage my charging processes, and receive invoices.
+  As a customer
+  I want to create my own account
+  in order to use the charging services, manage my charging processes, and receive invoices.
 
   Scenario: Successful account creation
     Given I am a new user without an existing account

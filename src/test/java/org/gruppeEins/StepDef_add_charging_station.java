@@ -1,14 +1,14 @@
 package org.gruppeEins;
 
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.And;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDef_add_charging_station
 {
@@ -19,14 +19,6 @@ public class StepDef_add_charging_station
     private Station newnewStation;
     private int idLocation;
     private int idStation;
-
-    @Given("a location {string} exists in the system")
-    public void aLocationExistsInTheSystem(String arg0)
-    {
-        int id = Integer.parseInt(arg0);
-
-        location = new Location(id, address, priceCat);
-    }
 
     @Then("the charging point {string} is stored in the system")
     public void theChargingPointIsStoredInTheSystem(String arg0)
@@ -50,30 +42,19 @@ public class StepDef_add_charging_station
         assertTrue(location.getStations().contains(newStation));
     }
 
-
-    @Given("a location {string} exists with a charging point with identifier {string}")
-    public void aLocationExistsWithAChargingPoint(String arg0, String arg1)
-    {
-        int id1 = Integer.parseInt(arg0);
-
-        location = new Location(id1, address, priceCat);
-
-        int id2 = Integer.parseInt(arg1);
-        newStation = new Station(id2, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);
-    }
-
     @When("I try to add another charging point with identifier {string} to the same location")
     public void iTryToAddAnotherChargingPointWithIdentifierToTheSameLocation(String arg0)
     {
         idStation = Integer.parseInt(arg0);
-        assertThrows(IllegalArgumentException.class, () -> {newnewStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);});
-
+        assertThrows(IllegalArgumentException.class, () -> {
+            newnewStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);});
     }
 
     @Then("the system rejects the request")
     public void theSystemRejectsTheRequest()
     {
-        assertThrows(IllegalArgumentException.class, () -> {newnewStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);});
+        assertThrows(IllegalArgumentException.class, () -> {
+            newnewStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);});
     }
 
     @And("I see an error message {string}")
@@ -93,7 +74,7 @@ public class StepDef_add_charging_station
         assertEquals(message, arg0);
     }
 
-    @Then("I see the error message {string}")
+    @Then("I see the following error message {string}")
     public void iSeeTheErrorMessage(String arg0)
     {
         String message = "";
@@ -139,7 +120,8 @@ public class StepDef_add_charging_station
         idStation = Integer.parseInt(arg0);
         ChargingType type = ChargingType.valueOf(arg1);
 
-        assertThrows(NullPointerException.class, () -> {newStation = new Station(idStation, type, ChargingStatus.IN_OPERATION_FREE, location);});
+        assertThrows(NullPointerException.class, () -> {
+            newStation = new Station(idStation, type, ChargingStatus.IN_OPERATION_FREE, location);});
     }
 
     @When("I add charging station with identifier {string} to that location")

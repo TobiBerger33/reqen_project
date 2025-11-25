@@ -5,13 +5,13 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 
-public class StepDefs_create_invoice
-{
+
+public class StepDefs_create_invoice {
+
     private final Address address = new Address("1234", "Street", "City", 123, "Country");
     private final PriceCatalog priceCat = new PriceCatalog(LocalDateTime.now(), 0.40, 0.60, 0.10, 0.10);
     private final Location location = new Location(address, priceCat);
