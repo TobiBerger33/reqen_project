@@ -3,7 +3,7 @@ package org.gruppeEins;
 import java.time.LocalDateTime;
 
 public class ElectricChargingStationNetwork {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("--- Setting up Electric Charging Station Network ---");
 
         // 1. Initialize all managers

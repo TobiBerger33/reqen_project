@@ -2,6 +2,7 @@ package org.gruppeEins;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Location {
 
@@ -13,6 +14,12 @@ public class Location {
 
     public Location(Address address, PriceCatalog priceCatalog) {
         this.id = ++nextID;
+        this.address = address;
+        this.priceCatalog = priceCatalog;
+    }
+
+    public Location(int id, Address address, PriceCatalog priceCatalog) {
+        this.id = id;
         this.address = address;
         this.priceCatalog = priceCatalog;
     }
@@ -49,6 +56,12 @@ public class Location {
     public List<Station> getStations() {
         // Return a copy to prevent external modification
         return new ArrayList<>(stations);
+    }
+
+    public Optional<Station> getStationById(int id) {
+        return stations.stream()
+                .filter(station -> station.getId() == id)
+                .findFirst();
     }
 
     // Setters
