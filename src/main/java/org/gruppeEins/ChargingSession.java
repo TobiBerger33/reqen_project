@@ -24,6 +24,16 @@ public class ChargingSession {
         this.mode = station.getType();
         // Create a snapshot of the prices at the beginning of the session
         this.priceSnapshot = new PriceSnapshot(station.getCurrentPrice());
+        this.startTime = LocalDateTime.now();
+    }
+
+    public ChargingSession(int id, Station station, Customer customer) {
+        this.id = id;
+        this.station = station;
+        this.customer = customer;
+        this.mode = station.getType();
+        // Create a snapshot of the prices at the beginning of the session
+        this.priceSnapshot = new PriceSnapshot(station.getCurrentPrice());
     }
 
     public void start(LocalDateTime startTime) {
@@ -62,6 +72,10 @@ public class ChargingSession {
 
         this.totalCost = (duration * pricePerMinute) + (energy * pricePerKWh);
         return this.totalCost;
+    }
+
+    public void setTotalCost(double cost) {
+        this.totalCost = cost;
     }
 
     // Getters
