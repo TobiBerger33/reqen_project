@@ -1,5 +1,7 @@
 package org.gruppeEins;
 
+import java.util.ArrayList;
+
 public class Station {
 
     private static int nextID = 0;
