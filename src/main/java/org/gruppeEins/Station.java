@@ -26,13 +26,7 @@ public class Station {
         this.location = location;
     }
 
-    public ChargingStatus getStatus()
-    {
-        return status;
-    }
-
-    public void updateStatus(ChargingStatus status)
-    {
+    public void updateStatus(ChargingStatus status) {
         this.status = status;
     }
 
@@ -64,8 +58,7 @@ public class Station {
         return location;
     }
 
-    public String printStatus()
-    {
+    public String printStatus() {
         String statusTxt;
 
         switch (status) {

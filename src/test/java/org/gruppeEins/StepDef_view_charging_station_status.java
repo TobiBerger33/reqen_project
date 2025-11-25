@@ -4,15 +4,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StepDef_view_charging_station_status
 {
 
-    LocationManager locationManager = new LocationManager("locManger");
     Address address = new Address("1234", "Street", "City", 123, "Country");
-    PriceCatalog priceCat = new PriceCatalog(20.00);
-    Location location = new Location(locationManager, address, priceCat);
+    PriceCatalog priceCat = new PriceCatalog(LocalDateTime.now(), 0.40, 0.60, 0.10, 0.10);
+    Location location = new Location(address, priceCat);
     ChargingStatus givenStatus;
     ChargingStatus actualStatus;
     Station newStation;
