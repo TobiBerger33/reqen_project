@@ -8,10 +8,16 @@ public class LocationManager {
 
     private final List<Location> locations = new ArrayList<>();
 
-    public void addLocation(Location location) {
-        if (location != null) {
-            locations.add(location);
+    public void addLocation(Location location) throws Exception{
+        if (location == null) {
+            return;
         }
+
+        if (location.getAddress() == null) {
+            throw new Exception("Address data is missing");
+        }
+
+        locations.add(location);
     }
 
     public Optional<Location> getLocationById(int id) {
