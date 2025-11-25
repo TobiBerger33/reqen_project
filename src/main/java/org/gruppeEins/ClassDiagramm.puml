@@ -1,0 +1,204 @@
+@startuml
+title UML Class Diagramm
+
+' ===========================
+' Enumerations
+' ===========================
+enum ChargingType {
+  AC
+  DC
+}
+
+enum ChargingStatus {
+  IN_OPERATION_FREE
+  IN_OPERATION_OCCUPIED
+  OUT_OF_ORDER
+}
+
+class DateTime
+
+' ===========================
+' Main Application
+' ===========================
+class ElectricChargingNetworkStation {
+  +main(args: String[]): void
+}
+
+' ===========================
+' Manager / Container Classes
+' ===========================
+class CustomerManager {
+  -customers: Customer[]
+  +addCustomer(customer: Customer)
+  +getCustomerById(id: int): Customer
+  +updateCustomer(customer: Customer)
+  +removeCustomer(id: int)
+  +toString(): String
+}
+
+class InvoiceManager {
+  -invoices: Invoice[]
+  +addInvoice(invoice: Invoice)
+  +getInvoiceById(id: int): Invoice
+  +updateInvoice(invoice: Invoice)
+  +removeInvoice(id: int)
+  +toString(): String
+}
+
+class ChargingSessionManger {
+  -sessions: ChargingSession[]
+  +addSession(session: ChargingSession)
+  +getSessionById(id: int): ChargingSession
+  +updateSession(session: ChargingSession)
+  +removeSession(id: int)
+  +toString(): String
+}
+
+class StationManger {
+  +stations: Station[]
+  +addStation(station: Station)
+  +getStationById(id: int): Station
+  +updateStation(station: Station)
+  +removeStation(id: int)
+  +toString(): String
+}
+
+class LocationManger {
+  -locations: Location[]
+  +addLocation(location: Location)
+  +getLocationById(id: int): Location
+  +updateLocation(location: Location)
+  +removeLocation(id: int)
+  +toString(): String
+}
+
+class PriceCatalogManger {
+  -priceCatalogs: PriceCatalog[]
+  +addPriceCatalog(pc: PriceCatalog)
+  +getPriceCatalogById(id: int): PriceCatalog
+  +updatePriceCatalog(pc: PriceCatalog)
+  +removePriceCatalog(id: int)
+  +toString(): String
+}
+
+' ===========================
+' Domain Classes
+' ===========================
+class Customer {
+  -id: int
+  -nextID: static integer
+  -name: String
+  -email: String
+  -credit: double
+  +getId()
+  +getCredit(): integer
+  +increaseCredit(amount: int): Customer
+  +reduceCredit(amount: int): Customer
+}
+
+class Invoice {
+  -id: int
+  -nextID: static int
+  -chargingSession: ChargingSession
+  -amount: double
+}
+
+class ChargingSession {
+  -id: int
+  -nextID: static int
+  -startTime: DateTime
+  -endTime: DateTime
+  -totalCost: double
+  -station: Station
+  -customer: Customer
+  -priceSnapshot: PriceSnapshot
+  -mode: ChargingType
+  -duration: double
+  -energy: double
+  +start(start: DateTime)
+  +end(end: DateTime)
+  +calculateCost(): double
+}
+
+class Station {
+  -id: int
+  -nextID: static int
+  -type: ChargingType
+  -status: ChargingStatus
+  -location: Location
+  +Station(type, status, Location)
+  +updateStatus(status)
+  +updateType(type)
+  +getLocation()
+  +getCurrentPrice()
+}
+
+class Location {
+  -id: int
+  -nextID: static int
+  -address: Address
+  -priceCatalog: PriceCatalog
+  -stations: Station[]
+  +getPriceCatalog()
+  +addStation()
+  +rmStation()
+  +updateLocation()
+}
+
+class Address {
+  -id: int
+  -postCode: string
+  -street: string
+  -city: string
+  -houseNumber: integer
+  -country: string
+  +updateAddress()
+}
+
+class PriceCatalog {
+  -id: int
+  -nextID: static int
+  -validFrom: DateTime
+  -kWhPriceAC: double
+  -kWhPriceDC: double
+  -minutePriceAC: double
+  -minutePriceDC: double
+}
+
+class PriceSnapshot {
+  -id: int
+  -nextID: static int
+  -kWhPriceAC: double
+  -kWhPriceDC: double
+  -minutePriceAC: double
+  -minutePriceDC: double
+  -capturedAt: DateTime
+}
+
+' ===========================
+' Associations
+' ===========================
+ElectricChargingNetworkStation --> CustomerManager
+ElectricChargingNetworkStation --> InvoiceManager
+ElectricChargingNetworkStation --> ChargingSessionManger
+ElectricChargingNetworkStation --> StationManger
+ElectricChargingNetworkStation --> LocationManger
+ElectricChargingNetworkStation --> PriceCatalogManger
+
+CustomerManager "1" o-- "*" Customer
+InvoiceManager "1" o-- "*" Invoice
+ChargingSessionManger "1" o-- "*" ChargingSession
+StationManger "1" o-- "*" Station
+LocationManger "1" o-- "*" Location
+PriceCatalogManger "1" o-- "*" PriceCatalog
+
+Customer "1" o-- "*" ChargingSession
+Station "1" o-- "*" ChargingSession
+ChargingSession "1" o-- "1" PriceSnapshot
+ChargingSession "1" o-- "1" Invoice
+
+Location "1" o-- "*" Station
+Location "1" o-- "1" Address
+Location "1" o-- "1" PriceCatalog
+
+@enduml
