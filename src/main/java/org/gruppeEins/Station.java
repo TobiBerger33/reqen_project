@@ -92,6 +92,25 @@ public class Station {
         return location;
     }
 
+    public String printStatus() {
+        String statusTxt;
+
+        switch (status) {
+            case IN_OPERATION_FREE:
+                statusTxt = "IN OPERATION and FREE";
+                break;
+            case IN_OPERATION_OCCUPIED:
+                statusTxt = "IN OPERATION but OCCUPIED";
+                break;
+            default:
+                statusTxt = "OUT OF ORDER";
+        }
+
+        String message = "Station " + id + " is " + statusTxt;
+
+        return message;
+    }
+
     // Setter for location
     public void setLocation(Location location) {
         // If we are moving a station, we should remove it from the old location
