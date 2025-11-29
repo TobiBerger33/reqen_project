@@ -7,35 +7,63 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 
 public class StepDef_update_location
 {
-    @Given("a location with an address with street {string} and city {string} exists in the system")
-    public void aLocationWithAnAddressWithStreetAndCityExistsInTheSystem(String arg0, String arg1)
-    {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
 
-    @When("I update the locations address to a new address with street {string} in {string}")
-    public void iUpdateTheLocationsAddressToANewAddressWithStreetIn(String arg0, String arg1)
+    private LocationManager locationManager = new LocationManager();
+    private Location location;
+    private Optional<Location> currentLocation;
+    private Address address;
+    private Address newAddress;
+    private String currentStreet;
+    private String currentCity;
+    private PriceCatalog priceCat;
+    private Station station;
+
+    @Given("a location with ID {int} and address with street {string} and city {string} exists in the system")
+    public void aLocationWithAnAddressWithStreetAndCityExistsInTheSystem(int id, String street, String city)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        address = new Address("1200", street, city, 6, "Austria");
+        priceCat = new PriceCatalog(LocalDateTime.now(), 0.40, 0.60, 0.10, 0.10);
+
+        location = new Location(id, address, priceCat);
+
+        try
+        {
+            locationManager.addLocation(location);
+        }
+        catch (Exception ignore)
+        {
+        }
+    }
+    @When("I update the location with ID {int} and change the address to a new address with street {string} in {string}")
+    public void iUpdateTheLocationsAddressToANewAddressWithStreetIn(int id, String street, String city)
+    {
+        newAddress = new Address("1200", street, city, 25, "Austria");
+
+        currentLocation = locationManager.getLocationById(id);
+
+        currentLocation.ifPresent(location -> location.setAddress(newAddress));
     }
 
     @Then("the new address is saved as the locations address")
     public void theNewAddressIsSavedAsTheLocationsAddress()
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        currentStreet = currentLocation.orElse(null).getAddress().getStreet();
+        currentCity = currentLocation.orElse(null).getAddress().getCity();
     }
 
     @And("the locations address is {string} in {string}")
-    public void theLocationsAddressIsIn(String arg0, String arg1)
+    public void theLocationsAddressIsIn(String street, String city)
     {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        assertEquals(currentStreet, street);
+        assertEquals(currentCity, city);
     }
 
     @When("I try to change the address to a non existing one")
@@ -47,6 +75,13 @@ public class StepDef_update_location
 
     @Then("the address is not changed")
     public void theAddressIsNotChanged()
+    {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @And("I see the error {string}")
+    public void iSeeTheError(String arg0)
     {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
