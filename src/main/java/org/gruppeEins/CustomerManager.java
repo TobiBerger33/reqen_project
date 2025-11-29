@@ -36,7 +36,17 @@ public class CustomerManager {
     }
 
     public void removeCustomer(int id) {
-        customers.removeIf(customer -> customer.getId() == id);
+        Optional<Customer> customerOpt = getCustomerById(id);
+
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+
+            if (customer.getCredit() < 0) {
+                throw new IllegalArgumentException("Cannot delete customer with outstanding debt");
+            }
+
+            customers.remove(customer);
+        }
     }
     
     public List<Customer> getAllCustomers() {
