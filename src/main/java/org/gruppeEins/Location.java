@@ -43,8 +43,11 @@ public class Location {
     }
 
     // The diagram shows updateLocation(), which could mean updating the address or price catalog
-    public void updateLocation(Address address, PriceCatalog priceCatalog) {
+    public void updateAddress(Address address) {
         this.address = address;
+    }
+
+    public void updatePriceCatalog(PriceCatalog priceCatalog) {
         this.priceCatalog = priceCatalog;
     }
 
