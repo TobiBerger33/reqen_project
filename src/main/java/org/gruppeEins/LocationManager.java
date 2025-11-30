@@ -26,6 +26,12 @@ public class LocationManager {
                 .findFirst();
     }
 
+    public Optional<Location> getLocationByName(String name) {
+        return locations.stream()
+                .filter(location -> location.getName().equals(name))
+                .findFirst();
+    }
+
     public void updateLocation(Location updatedLocation) {
         if (updatedLocation == null) {
             return;
@@ -41,6 +47,9 @@ public class LocationManager {
     }
 
     public List<Location> getAllLocations() {
+        if(locations.isEmpty()) {
+            throw new RuntimeException("No locations available");
+        }
         return new ArrayList<>(locations);
     }
 

@@ -9,12 +9,20 @@ public class Location {
     private static int nextID = 0;
     private final int id;
     private Address address;
+    private String name;
     private PriceCatalog priceCatalog;
     private final List<Station> stations = new ArrayList<>();
 
     public Location(Address address, PriceCatalog priceCatalog) {
         this.id = ++nextID;
         this.address = address;
+        this.priceCatalog = priceCatalog;
+    }
+
+    public Location(Address address, String name, PriceCatalog priceCatalog) {
+        this.id = ++nextID;
+        this.address = address;
+        this.name = name;
         this.priceCatalog = priceCatalog;
     }
 
@@ -47,6 +55,11 @@ public class Location {
 
     public Address getAddress() {
         return address;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public PriceCatalog getPriceCatalog() {
