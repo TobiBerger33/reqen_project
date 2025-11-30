@@ -12,26 +12,25 @@ Feature: edit location
 
   Scenario: Update location with invalid new address
     Given a location with ID 202 and address with street "that street" and city "this city" exists in the system
-    When I try to change the address to a non existing one
+    When I try to change the address of location with ID 202 to a non existing one
     Then the address is not changed
-    And the locations address is "that street" in "this city"
-    And I see the error "Address not available"
+    And the locations address is still "that street" in "this city"
+    And I see the error "Please use a valid address"
 
   Scenario: Update location with valid new price catalog
-    Given a location with a price catalog with a KW price AC of 1.25 exists in the system
-    When I update the locations price catalog to have a KW price AC of 1.50
+    Given a location with ID 303 and price catalog with a KW price AC of 1.25 exists in the system
+    When I update the price catalog of the locations with ID 303 to have a KW price AC of 1.50
     Then the price catalog is updated
     And the locations KW price AC shows 1.50
 
   Scenario: Add station to location
-    Given a location and a station with ID 101 exist in the system
-    When I add the station to the location
-    Then the station with ID 101 is save to the location
-    And the station with ID 101 is listed under the location's stations
+    Given a location with ID 404 and a station with ID 1001 exist in the system
+    When I add the station with ID 1001 to the location with ID 404
+    Then the station with ID 1001 is saved to the location
+    And the station with ID 1001 is listed under the location's stations
 
-  Scenario: Add station to location
-    Given a location and a station with ID 101 exist in the system
-    And the station is added to the location
+  Scenario: Remove station from location
+    Given a location with ID 505 and a station with ID 2002 exist in the system
+    And the station with ID 2002 is added to the location with ID 505
     When I remove the station to the location
-    Then the station with ID 101 is removed from the location
-    And the station with ID 101 is no longer listed under the location's stations
+    Then the station with ID 2002 is no longer listed under the location's stations

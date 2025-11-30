@@ -82,7 +82,11 @@ public class Location {
 
     // Setters
     public void setAddress(Address address) {
-        this.address = address;
+        if(address == null) {
+            throw new IllegalArgumentException("Please use a valid address");
+        } else {
+            this.address = address;
+        }
     }
 
     public void setPriceCatalog(PriceCatalog priceCatalog) {
