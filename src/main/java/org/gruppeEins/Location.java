@@ -43,8 +43,11 @@ public class Location {
     }
 
     // The diagram shows updateLocation(), which could mean updating the address or price catalog
-    public void updateLocation(Address address, PriceCatalog priceCatalog) {
+    public void updateAddress(Address address) {
         this.address = address;
+    }
+
+    public void updatePriceCatalog(PriceCatalog priceCatalog) {
         this.priceCatalog = priceCatalog;
     }
 
@@ -79,7 +82,11 @@ public class Location {
 
     // Setters
     public void setAddress(Address address) {
-        this.address = address;
+        if(address == null) {
+            throw new IllegalArgumentException("Please use a valid address");
+        } else {
+            this.address = address;
+        }
     }
 
     public void setPriceCatalog(PriceCatalog priceCatalog) {

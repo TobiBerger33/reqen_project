@@ -20,7 +20,7 @@ public class StepDef_view_invoice {
     private Station dummyStation;
     private Customer dummyCustomer;
 
-    @Given("the {string} is initialized")
+    @Given("first the {string} is initialized")
     public void initializeManager(String name) {
         if (name.equals("InvoiceManager")) {
             invoiceManager = new InvoiceManager();

@@ -4,7 +4,7 @@ Feature: View Invoice Details
   In order to understand payments, billing periods, and tax-relevant information.
 
   Background:
-    Given the "InvoiceManager" is initialized
+    Given first the "InvoiceManager" is initialized
 
   Scenario: Successfully retrieving a valid invoice
     Given a charging session exists with:
