@@ -3,6 +3,7 @@ package org.gruppeEins;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.And;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,16 +11,17 @@ import io.cucumber.datatable.DataTable;
 import java.util.List;
 import java.util.Map;
 
+
 public class StepDef_add_location {
     private LocationManager locationManager;
     private Location tempLocation;
     private Exception lastException;
 
-    @Given("the {string} is initialized and contains {int} locations")
-    public void initializeManager(String managerName, int initialCount) {
+    @Given("the {string} is initialized, contains no locations and therefore throws an error when retrieving all locations")
+    public void initializeManager(String managerName /*, int initialCount*/) {
         if (managerName.equals("LocationManager")) {
             locationManager = new LocationManager();
-            assertEquals(initialCount, locationManager.getAllLocations().size());
+            assertThrows(RuntimeException.class, locationManager::getAllLocations);
         }
     }
 
@@ -125,5 +127,11 @@ public class StepDef_add_location {
 
         assertTrue(result.isPresent(), "Location lookup by ID failed for city: " + city);
         assertEquals(city, result.get().getAddress().getCity(), "Retrieved location does not match expected city");
+    }
+
+    @And("there are no locations")
+    public void thereAreNoLocations()
+    {
+        assertThrows(RuntimeException.class, locationManager::getAllLocations);
     }
 }
