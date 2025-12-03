@@ -69,10 +69,10 @@ public class StepDef_register_user {
     }
 
     @When("I try to register with the email {string}")
-    public void iTryToRegisterWithTheEmail(String arg0)
+    public void iTryToRegisterWithTheEmail(String email)
     {
         currentName = "Ben";
-        currentEmail = arg0;
+        currentEmail = email;
         try {
             Customer tempCustomer = new Customer(currentName, currentEmail);
             customerManager.addCustomer(tempCustomer);

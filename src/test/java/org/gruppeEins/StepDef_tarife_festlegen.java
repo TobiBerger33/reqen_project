@@ -1,5 +1,6 @@
 package org.gruppeEins;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.*;
 
 import static org.junit.jupiter.api.Assertions.*;
