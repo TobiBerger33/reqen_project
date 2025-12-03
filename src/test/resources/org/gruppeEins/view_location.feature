@@ -9,6 +9,7 @@ Feature: view all location
     When I request the overview of all locations
     Then I see a list containing "City Center", "Airport", and "University Campus"
 
+    #error
   Scenario: View only locations that currently have available charging points
     Given the system contains location "Mall" with available charging points
     And the system contains location "Train Station" with no available charging points
@@ -17,6 +18,7 @@ Feature: view all location
     Then I see "Mall" and "Harbor"
     And I do not see "Train Station"
 
+    #error
   Scenario: No locations found
     Given the system contains no locations
     When I request the overview of all locations

@@ -1,5 +1,6 @@
 package org.gruppeEins;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -14,7 +15,7 @@ public class StepDef_register_user {
     private Customer newCustomer;
     private String currentName;
     private String currentEmail;
-    private String message;
+    private String errorMessage;
 
 
     @Given("I am a new user without an existing account")
@@ -24,14 +25,16 @@ public class StepDef_register_user {
     }
 
     @When("I provide my name {string}, email {string}, and a secure password")
-    public void iProvideMyNameEmailAndASecurePassword(String arg0, String arg1)
+    public void iProvideMyNameEmailAndASecurePassword(String name, String email)
     {
-        customer = new Customer(arg0, arg1);
+        currentName = name;
+        currentEmail = email;
     }
 
     @Then("a new customer account is created")
     public void aNewCustomerAccountIsCreated()
     {
+        customer = new Customer(currentName, currentEmail);
         assertNotNull(customer);
     }
 
@@ -41,11 +44,9 @@ public class StepDef_register_user {
         assertNotNull(customer.getId());
     }
 
-    @And("my account balance is initialized to {string}")
-    public void myAccountBalanceIsInitializedTo(String arg0)
+    @And("my account balance is initialized to {double}")
+    public void myAccountBalanceIsInitializedTo(double credit)
     {
-        double credit = Double.parseDouble(arg0);
-
         assertEquals(customer.getCredit(), credit);
     }
 
@@ -68,13 +69,11 @@ public class StepDef_register_user {
         try
         {
             newCustomer = new Customer(currentName, currentEmail );
-        }
-        catch (Exception e)
-        {
-            message = e.getMessage();
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
         }
 
-        assertEquals(message, arg0);
+        assertEquals(errorMessage, arg0);
     }
 
     @And("no new account is created")

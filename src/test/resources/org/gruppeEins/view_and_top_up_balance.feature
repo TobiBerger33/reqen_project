@@ -12,3 +12,6 @@ Feature: View and top up balance
     Given a customer with an initial balance of 100.0
     When the customer tops up their balance with 50.0
     Then the new balance should be 150.0
+
+    #error (add to non-exist)
+    #edge (add 0)

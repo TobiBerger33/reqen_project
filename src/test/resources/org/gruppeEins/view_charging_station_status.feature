@@ -24,3 +24,5 @@ Feature: view charging station status
     When I change the status to "OUT_OF_ORDER"
     And I view the status of charging stations
     Then I see the Message "Station 104 is OUT OF ORDER"
+
+    #error (view null)

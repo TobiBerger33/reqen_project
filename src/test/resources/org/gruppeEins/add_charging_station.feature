@@ -19,6 +19,7 @@ Feature: add charging point
     Then the system rejects the request
     And I see an error message "Charging point identifier already exists at this location"
 
+    #error
   Scenario: Add charging point to a non-existent location
     When I try to add a charging point with identifier "300" of type "DC" to a location
     Then I see the following error message "Location not found"

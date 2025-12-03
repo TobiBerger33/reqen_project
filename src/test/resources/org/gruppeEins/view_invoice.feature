@@ -16,6 +16,7 @@ Feature: View Invoice Details
     And the invoice amount should be 15.50
     And the invoice should be linked to the charging session with 22.5 kWh
 
+    #error
   Scenario: Attempting to retrieve a non-existent invoice
     Given no invoice exists with ID 999
     When I attempt to retrieve the invoice with ID 999
