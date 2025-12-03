@@ -17,8 +17,8 @@ public class StepDef_add_location {
     private Location tempLocation;
     private Exception lastException;
 
-    @Given("the {string} is initialized, contains no locations and therefore throws an error when retrieving all locations")
-    public void initializeManager(String managerName /*, int initialCount*/) {
+    @Given("the {string} is initialized, contains no locations, therefore throws an error when retrieving all locations")
+    public void initializeManager(String managerName) {
         if (managerName.equals("LocationManager")) {
             locationManager = new LocationManager();
             assertThrows(RuntimeException.class, locationManager::getAllLocations);
