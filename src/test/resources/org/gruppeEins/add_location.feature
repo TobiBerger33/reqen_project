@@ -5,7 +5,7 @@ Feature: Add new locations
   In order to make new operating sites quickly available and visible in the network.
 
   Background:
-    Given the "LocationManager" is initialized, contains no locations and therefore throws an error when retrieving all locations
+    Given the "LocationManager" is initialized, contains no locations, therefore throws an error when retrieving all locations
 
   Scenario: Successfully adding a new location with a valid address
     Given I have a new location details with Street "Technikumplatz", Number 1, Zip "1200", City "Vienna", and Country "Austria"
