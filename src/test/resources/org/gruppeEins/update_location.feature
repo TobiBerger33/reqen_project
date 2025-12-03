@@ -10,6 +10,7 @@ Feature: edit location
     Then the new address is saved as the locations address
     And the locations address is "another street" in "new town city"
 
+    #error
   Scenario: Update location with invalid new address
     Given a location with ID 202 and address with street "that street" and city "this city" exists in the system
     When I try to change the address of location with ID 202 to a non existing one

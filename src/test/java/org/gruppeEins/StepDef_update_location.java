@@ -112,7 +112,7 @@ public class StepDef_update_location
     @Given("a location with ID {int} and price catalog with a KW price AC of {double} exists in the system")
     public void aLocationWithAPriceCatalogWithAKWPriceACOfExistsInTheSystem(int id, double price)
     {
-        priceCat = new PriceCatalog(LocalDateTime.now(), price, 0.0, 0.1, 0.3);
+        priceCat = new PriceCatalog(LocalDateTime.now(), price, 0.14, 0.1, 0.3);
         address = new Address("1200", "Hoechstaedtplatz", "Vienna", 6, "Austria");
 
         try {
@@ -124,10 +124,10 @@ public class StepDef_update_location
     @When("I update the price catalog of the locations with ID {int} to have a KW price AC of {double}")
     public void iUpdateTheLocationsPriceCatalogToHaveAKWPriceACOf(int id, double price)
     {
-        newPriceCat = new PriceCatalog(LocalDateTime.now(), price, 0.0, 0.1, 0.3);
+        newPriceCat = new PriceCatalog(LocalDateTime.now(), price, 0.15, 0.1, 0.3);
         currentLocation = locationManager.getLocationById(id);
 
-        currentLocation.ifPresent(location -> location.setPriceCatalog(newPriceCat));
+        currentLocation.ifPresent(location -> location.updatePriceCatalog(newPriceCat));
     }
 
     @Then("the price catalog is updated")
