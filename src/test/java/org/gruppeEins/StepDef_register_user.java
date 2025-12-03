@@ -15,6 +15,7 @@ public class StepDef_register_user {
     private Customer newCustomer;
     private String currentName;
     private String currentEmail;
+    private String errorMessage;
     private Exception exception; // Added for capturing exceptions
     private CustomerManager customerManager; // Added CustomerManager
 
@@ -94,6 +95,14 @@ public class StepDef_register_user {
         assertEquals(errorMessage, arg0);
         assertNotNull(exception);
         assertEquals(arg0, exception.getMessage());
+        try
+        {
+            newCustomer = new Customer(currentName, currentEmail );
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+
+        assertEquals(errorMessage, arg0);
     }
 
     @And("no new account is created")
