@@ -1,9 +1,6 @@
 package org.gruppeEins;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.And;
+import io.cucumber.java.en.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,12 +9,14 @@ import java.time.LocalDateTime;
 
 public class StepDef_tarife_festlegen {
 
-    private PriceCatalogManager priceCatalogManager;
-    private LocationManager locationManager;
-    private StationManager stationManager;
+    private PriceCatalogManager priceCatalogManager = new PriceCatalogManager();
+    private LocationManager locationManager = new LocationManager();
+    private StationManager stationManager = new StationManager();
 
     private PriceCatalog currentPriceCatalog;
+    private PriceCatalog newPriceCatalog;
     private Location currentLocation;
+    private String errorMessage;
 
     private double tempKWhPriceAC;
     private double tempKWhPriceDC;
@@ -25,11 +24,6 @@ public class StepDef_tarife_festlegen {
     private double tempMinutePriceDC;
     private LocalDateTime tempValidFrom;
 
-    public StepDef_tarife_festlegen() {
-        this.priceCatalogManager = new PriceCatalogManager();
-        this.locationManager = new LocationManager();
-        this.stationManager = new StationManager();
-    }
 
     @Given("I want to create a new price catalog and define rates for charging")
     public void iWantToCreateANewPriceCatalogAndDefineRatesForCharging() {
@@ -110,7 +104,7 @@ public class StepDef_tarife_festlegen {
 
     @When("I assign the price catalog to the location")
     public void i_assign_the_price_catalog_to_the_location() {
-        currentLocation.setPriceCatalog(currentPriceCatalog);
+        currentLocation.updatePriceCatalog(currentPriceCatalog);
         locationManager.updateLocation(currentLocation);
     }
 
@@ -127,5 +121,70 @@ public class StepDef_tarife_festlegen {
             assertEquals(currentPriceCatalog.getId(), stationCatalog.getId(),
                     "Station's catalog should match location's catalog");
         }
+    }
+
+    @Given("a price catalog exists with prices of {double} EUR per kWh AC and {double} EUR per kWh DC")
+    public void aPriceCatalogExistsWithPricesOfEURPerKWhACAndEURPerKWhDC(double priceAC, double priceDC)
+    {
+        currentPriceCatalog = new PriceCatalog(LocalDateTime.now(), priceAC, priceDC, 0.1, 0.1);
+    }
+
+    @And("a location exists in the system with that price catalog")
+    public void aLocationExistsInTheSystemWithThatPriceCatalog()
+    {
+        Address address = new Address("1200", "Hoechstaedtplatz", "Vienna", 6, "Austria");
+        currentLocation = new Location(address, currentPriceCatalog);
+    }
+
+    @When("I create a new price catalog with prices {double} EUR per kWh AC and {double} EUR per kWh DC")
+    public void iCreateANewPriceCatalogWithPricesEURPerKWhACAndEURPerKWhDC(double priceAC, double priceDC)
+    {
+        newPriceCatalog = new PriceCatalog(LocalDateTime.now(), priceAC, priceDC, 0.1, 0.1);
+    }
+
+    @And("I try to assign the new price catalog to the location")
+    public void iTryToAssignTheNewPriceCatalogToTheLocation()
+    {
+        try {
+            currentLocation.updatePriceCatalog(newPriceCatalog);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+    }
+
+    @Then("I see an error message that says {string}")
+    public void iSeeAnErrorMessageThatSays(String expectedMessage)
+    {
+        assertEquals(expectedMessage, errorMessage);
+    }
+
+    @And("the new price catalog is not saved to the location")
+    public void theNewPriceCatalogIsNotSavedToTheLocation()
+    {
+        assertEquals(currentPriceCatalog, currentLocation.getPriceCatalog());
+        assertNotEquals(newPriceCatalog, currentLocation.getPriceCatalog());
+    }
+
+    @But("no new price catalog exists")
+    public void noNewPriceCatalogExists()
+    {
+        newPriceCatalog = null;
+    }
+
+    @When("I try to add a non-existing price catalog")
+    public void iTryToAddANonExistingPriceCatalog()
+    {
+        try {
+            currentLocation.updatePriceCatalog(newPriceCatalog);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+    }
+
+    @And("the price per kWh is still {double} for AC and {double} for DC")
+    public void thePricePerKWhIsStillForACAndForDC(double priceAC, double priceDC)
+    {
+        assertEquals(priceAC, currentLocation.getPriceCatalog().getKWhPriceAC());
+        assertEquals(priceDC, currentLocation.getPriceCatalog().getKWhPriceDC());
     }
 }

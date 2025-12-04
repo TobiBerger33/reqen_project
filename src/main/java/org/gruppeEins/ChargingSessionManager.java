@@ -20,6 +20,19 @@ public class ChargingSessionManager {
                 .findFirst();
     }
 
+    public ChargingSession getSessionByCustomerId(int customerID) {
+
+        Optional<ChargingSession> session;
+        session = sessions.stream()
+                .filter(chargingSession-> chargingSession.getCustomer().getId() == customerID)
+                .findFirst();
+
+        if (session.isPresent()) {
+            return session.get();
+        }
+        throw new IllegalStateException("There is no current charging session for this user");
+    }
+
     public void updateSession(ChargingSession updatedSession) {
          if (updatedSession == null) {
             return;

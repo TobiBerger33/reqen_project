@@ -67,7 +67,7 @@ public class Invoice {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath)))
         {
-            writer.write(format("Invoice ID: %d, Customer name: %s, Amount: %.2f\n",
+            writer.write(format("%d, %s, %.2f\n",
                                 getId(), chargingSession.getCustomer().getName(), getAmount()));
             wasExported = true;
         }

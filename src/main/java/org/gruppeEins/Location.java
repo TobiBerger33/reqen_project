@@ -48,8 +48,15 @@ public class Location {
     }
 
     public void updatePriceCatalog(PriceCatalog priceCatalog) {
-        this.priceCatalog = priceCatalog;
-    }
+
+        if (priceCatalog == null) {
+            throw new IllegalArgumentException("Please use a valid price catalog");
+        }
+
+            if (validPrices(priceCatalog)) {
+                this.priceCatalog = priceCatalog;
+            }
+        }
 
     // Getters
     public int getId() {
@@ -89,7 +96,17 @@ public class Location {
         }
     }
 
-    public void setPriceCatalog(PriceCatalog priceCatalog) {
-        this.priceCatalog = priceCatalog;
+    private boolean validPrices(PriceCatalog priceCatalog) {
+
+        if (priceCatalog.getKWhPriceAC() == 0)
+            throw new IllegalArgumentException("Price for kWh AC must not be 0");
+        else if (priceCatalog.getKWhPriceDC() == 0)
+            throw new IllegalArgumentException("Price for kWh DC must not be 0");
+        else if (priceCatalog.getMinutePriceAC() == 0)
+            throw new IllegalArgumentException("Price for minute AC must not be 0");
+        else if (priceCatalog.getMinutePriceDC() == 0)
+            throw new IllegalArgumentException("Price for minute DC must not be 0");
+
+        return true;
     }
 }
