@@ -11,6 +11,7 @@ public class StepDef_view_and_top_up_balance {
 
     private Customer customer;
     private double retrievedBalance;
+    private String errorMessage;
 
     @Given("a customer with an initial balance of {double}")
     public void aCustomerWithAnInitialBalanceOf(double initialBalance) {
@@ -27,13 +28,24 @@ public class StepDef_view_and_top_up_balance {
         assertEquals(expectedBalance, this.retrievedBalance);
     }
 
-    @When("the customer tops up their balance with {double}")
-    public void theCustomerTopsUpTheirBalanceWith(double amount) {
-        this.customer.increaseCredit(amount);
+    @When("the customer trys to top up their balance with {double}")
+    public void theCustomerTopsUpTheirBalanceWith(double amount)
+    {
+        try {
+            customer.increaseCredit(amount);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
     }
 
     @Then("the new balance should be {double}")
     public void theNewBalanceShouldBe(double newBalance) {
         assertEquals(newBalance, this.customer.getCredit());
+    }
+
+    @Then("I receive the error message {string}")
+    public void iReceiveTheErrorMessage(String expectedErrorMessage)
+    {
+        assertEquals(expectedErrorMessage, errorMessage);
     }
 }
