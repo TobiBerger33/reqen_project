@@ -42,7 +42,9 @@ public class Customer {
     }
 
     public Customer increaseCredit(double amount) {
-        if (amount > 0) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Please select a positive amount greater than 0");
+        } else {
             this.credit += amount;
         }
         return this;
