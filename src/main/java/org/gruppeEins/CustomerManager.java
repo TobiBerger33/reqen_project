@@ -19,12 +19,7 @@ public class CustomerManager {
                 .filter(customer -> customer.getId() == id)
                 .findFirst();
     }
-    
-    // The update method in the diagram is generic. A common way to implement it
-    // is to find the customer by ID and then update its properties.
-    // However, since the Customer object is mutable, the caller can just get the
-    // customer and call its setters. An explicit update method here might be redundant
-    // unless it's for replacement. I will assume it's for replacement.
+
     public void updateCustomer(Customer updatedCustomer) {
         if (updatedCustomer == null) {
             return;
