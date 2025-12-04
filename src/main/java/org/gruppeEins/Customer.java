@@ -1,7 +1,9 @@
 package org.gruppeEins;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Customer {
 
@@ -78,10 +80,35 @@ public class Customer {
         }
     }
 
+    public ChargingSession startSession(Station station, LocalDateTime startTime)
+    {
+        return new ChargingSession(station, this, startTime);
+    }
+
+    public ChargingSession endSession(LocalDateTime endTime, double totalEnergy, ChargingSessionManager csManager)
+    {
+        if (csManager != null) {
+            LocalDateTime startTime = csManager.getSessionByCustomerId(id).getStartTime();
+
+            if (startTime.isAfter(endTime)) {
+                throw new IllegalArgumentException("End time cannot be before start time");
+            }
+
+            if (endTime.isEqual(startTime) ||totalEnergy <= 0) {
+                throw new IllegalArgumentException("Charging session failed. Please try again");
+            }
+
+            ChargingSession session = csManager.getSessionByCustomerId(id);
+            session.end(endTime, totalEnergy);
+
+            return session;
+        }
+        throw new IllegalArgumentException("No ChargingSessionManager provided");
+    }
+
     private boolean validInput(String name, String email)
     {
-        if(name.isEmpty() || email.isEmpty())
-        {
+        if(name.isEmpty() || email.isEmpty()) {
             throw new IllegalArgumentException("Required information missing");
         }
 
@@ -90,8 +117,7 @@ public class Customer {
 
     private boolean validEmail(String email)
     {
-        if(!email.contains("@") || !email.contains("."))
-        {
+        if(!email.contains("@") || !email.contains(".")) {
             throw new IllegalArgumentException("Invalid email format");
         }
         return true;
@@ -99,8 +125,7 @@ public class Customer {
 
     private boolean availableEmail(String email)
     {
-        if(emailList.contains(email))
-        {
+        if(emailList.contains(email)) {
             throw new IllegalArgumentException("Email already registered");
         }
 
