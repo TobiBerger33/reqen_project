@@ -34,6 +34,18 @@ public class StationManager {
         stations.removeIf(station -> station.getId() == id);
     }
 
+    public void updateStationType(int stationId, ChargingType newType) {
+        getStationById(stationId).ifPresent(station -> station.updateType(newType));
+    }
+
+    public void updateStationStatus(int stationId, ChargingStatus newStatus) {
+        getStationById(stationId).ifPresent(station -> station.updateStatus(newStatus));
+    }
+
+    public void updateStationLocation(int stationId, Location newLocation) {
+        getStationById(stationId).ifPresent(station -> station.setLocation(newLocation));
+    }
+
     public List<Station> getAllStations() {
         return new ArrayList<>(stations);
     }
