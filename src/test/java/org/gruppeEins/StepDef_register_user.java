@@ -1,5 +1,6 @@
 package org.gruppeEins;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -14,7 +15,16 @@ public class StepDef_register_user {
     private Customer newCustomer;
     private String currentName;
     private String currentEmail;
-    private String message;
+    private Exception exception; // Added for capturing exceptions
+    private CustomerManager customerManager; // Added CustomerManager
+
+    @Before
+    public void setup() {
+        customerManager = new CustomerManager();
+        exception = null;
+        customer = null;
+        newCustomer = null;
+    }
 
 
     @Given("I am a new user without an existing account")
@@ -53,6 +63,7 @@ public class StepDef_register_user {
     public void aCustomerAccountAlreadyExistsWithTheEmail(String arg0)
     {
         customer = new Customer("Alex", arg0);
+        customerManager.addCustomer(customer);
     }
 
     @When("I try to register with the email {string}")
@@ -60,21 +71,20 @@ public class StepDef_register_user {
     {
         currentName = "Ben";
         currentEmail = arg0;
+        try {
+            Customer tempCustomer = new Customer(currentName, currentEmail);
+            customerManager.addCustomer(tempCustomer);
+            newCustomer = tempCustomer; // Only assign if successful
+        } catch (Exception e) {
+            exception = e;
+        }
     }
 
     @Then("I see the error message {string}")
     public void iSeeTheErrorMessage(String arg0)
     {
-        try
-        {
-            newCustomer = new Customer(currentName, currentEmail );
-        }
-        catch (Exception e)
-        {
-            message = e.getMessage();
-        }
-
-        assertEquals(message, arg0);
+        assertNotNull(exception);
+        assertEquals(arg0, exception.getMessage());
     }
 
     @And("no new account is created")
@@ -94,6 +104,13 @@ public class StepDef_register_user {
     {
         currentName = "";
         currentEmail = arg0;
+        try {
+            Customer tempCustomer = new Customer(currentName, currentEmail);
+            customerManager.addCustomer(tempCustomer);
+            newCustomer = tempCustomer; // Only assign if successful
+        } catch (Exception e) {
+            exception = e;
+        }
     }
 
     @And("no customer account is created")

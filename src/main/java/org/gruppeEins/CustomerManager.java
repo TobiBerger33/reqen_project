@@ -7,10 +7,15 @@ import java.util.Optional;
 public class CustomerManager {
 
     private final List<Customer> customers = new ArrayList<>();
+    private final List<String> emailList = new ArrayList<>();
 
     public void addCustomer(Customer customer) {
         if (customer != null) {
+            if (emailList.contains(customer.getEmail())) {
+                throw new IllegalArgumentException("Email already registered");
+            }
             customers.add(customer);
+            emailList.add(customer.getEmail());
         }
     }
 
@@ -19,19 +24,24 @@ public class CustomerManager {
                 .filter(customer -> customer.getId() == id)
                 .findFirst();
     }
-    
-    // The update method in the diagram is generic. A common way to implement it
-    // is to find the customer by ID and then update its properties.
-    // However, since the Customer object is mutable, the caller can just get the
-    // customer and call its setters. An explicit update method here might be redundant
-    // unless it's for replacement. I will assume it's for replacement.
-    public void updateCustomer(Customer updatedCustomer) {
-        if (updatedCustomer == null) {
-            return;
-        }
-        getCustomerById(updatedCustomer.getId()).ifPresent(existingCustomer -> {
-            int index = customers.indexOf(existingCustomer);
-            customers.set(index, updatedCustomer);
+
+    public void updateCustomer(int id, String newName, String newEmail) {
+        getCustomerById(id).ifPresent(customer -> {
+            if (newName != null) {
+                if (newName.isEmpty()) {
+                    throw new IllegalArgumentException("Name cannot be empty");
+                }
+                customer.setName(newName);
+            }
+            if (newEmail != null && !newEmail.isEmpty()) {
+                if (emailList.contains(newEmail) && !customer.getEmail().equals(newEmail)) {
+                    throw new IllegalArgumentException("Email already registered");
+                }
+                String oldEmail = customer.getEmail();
+                customer.setEmail(newEmail);
+                emailList.remove(oldEmail);
+                emailList.add(newEmail);
+            }
         });
     }
 
@@ -46,6 +56,7 @@ public class CustomerManager {
             }
 
             customers.remove(customer);
+            emailList.remove(customer.getEmail());
         }
     }
     
