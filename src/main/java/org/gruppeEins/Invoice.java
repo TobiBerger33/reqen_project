@@ -2,7 +2,8 @@ package org.gruppeEins;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-
+import java.io.IOException;
+import java.nio.file.*;
 import static java.lang.String.format;
 
 public class Invoice {
@@ -65,15 +66,19 @@ public class Invoice {
 
         String fullPath = path + fileName;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath)))
-        {
-            writer.write(format("Invoice ID: %d, Customer name: %s, Amount: %.2f\n",
-                                getId(), chargingSession.getCustomer().getName(), getAmount()));
-            wasExported = true;
-        }
-        catch (Exception e1)
-        {
-            System.out.println("File writing failed. No customers set!\n");
+        try {
+            Path directoryPath = Paths.get(path);
+            Files.createDirectories(directoryPath);
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
+                writer.write(format("Invoice ID: %d, Customer name: %s, Amount: %.2f\n",
+                        getId(), chargingSession.getCustomer().getName(), getAmount()));
+                wasExported = true;
+            } catch (Exception e1) {
+                System.out.println("File writing failed. No customers set!\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
