@@ -23,8 +23,8 @@ public class Customer {
 
     public Customer(int id, String name, String email) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        setName(name);
+        setEmail(email);
     }
 
     public int getId() {
@@ -59,13 +59,17 @@ public class Customer {
         return this;
     }
 
-    // Setters for name and email might be useful
     public void setName(String name) {
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Required information missing");
+        }
         this.name = name;
     }
 
-    public void setEmail(String email)
-    {
+    void setEmail(String email) {
+        if (!email.contains("@") || !email.contains(".")) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
         this.email = email;
     }
 
