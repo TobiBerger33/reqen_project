@@ -13,9 +13,10 @@ import java.util.Map;
 
 public class StepDef_preise_einsehen {
 
-    private LocationManager locationManager;
+    private final LocationManager locationManager = new LocationManager();
+    private Location location;
 
-    private Map<String, Location> locationsByName = new HashMap<>();
+    private final Map<String, Location> locationsByName = new HashMap<>();
 
     private PriceCatalog returnedPriceCatalog;
     private String errorMessage;
@@ -24,7 +25,7 @@ public class StepDef_preise_einsehen {
     public void aLocationExistsWithAPriceCatalog(String locationName) {
         Address address = new Address("1200", "Hoechstaedtplatz", "Vienna", 6, "Austria");
         PriceCatalog priceCatalog = new PriceCatalog(LocalDateTime.now(), 0.45, 0.60, 0.10, 0.20);
-        Location location = new Location(address, locationName, priceCatalog);
+        location = new Location(address, locationName, priceCatalog);
 
         try {
             locationManager.addLocation(location);
@@ -36,7 +37,7 @@ public class StepDef_preise_einsehen {
 
     @When("I request the price information for location {string}")
     public void iRequestPriceInformationForLocation(String locationName) {
-        Location location = locationsByName.get(locationName);
+        location = locationsByName.get(locationName);
         assertNotNull(location, "Location not found: " + locationName);
 
         returnedPriceCatalog = location.getPriceCatalog();
