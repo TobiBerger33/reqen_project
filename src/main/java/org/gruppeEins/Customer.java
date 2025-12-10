@@ -3,7 +3,6 @@ package org.gruppeEins;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Customer {
 
@@ -12,6 +11,7 @@ public class Customer {
     private String name;
     private String email;
     private double credit = 0.00;
+    private final List<String> emailList = new ArrayList<>();
 
     public Customer(String name, String email, double initialCredit) {
         this.id = ++nextID;
@@ -114,7 +114,7 @@ public class Customer {
         if(name.isEmpty() || email.isEmpty()) {
             throw new IllegalArgumentException("Required information missing");
         }
-        this.name = name;
+        return true;
     }
 
     private boolean validEmail(String email)
@@ -122,15 +122,14 @@ public class Customer {
         if(!email.contains("@") || !email.contains(".")) {
             throw new IllegalArgumentException("Invalid email format");
         }
-        this.email = email;
+        return true;
     }
 
-    protected Customer(String name, String email)
+    protected boolean availableEmail(String email)
     {
         if(emailList.contains(email)) {
             throw new IllegalArgumentException("Email already registered");
         }
-
         return true;
     }
 }
