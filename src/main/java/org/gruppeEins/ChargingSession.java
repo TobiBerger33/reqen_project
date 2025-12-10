@@ -27,6 +27,17 @@ public class ChargingSession {
         this.startTime = LocalDateTime.now();
     }
 
+    public ChargingSession(Station station, Customer customer, LocalDateTime startTime)
+    {
+        this.id = ++nextID;
+        this.station = station;
+        this.customer = customer;
+        this.mode = station.getType();
+        // Create a snapshot of the prices at the beginning of the session
+        this.priceSnapshot = new PriceSnapshot(station.getCurrentPrice());
+        this.startTime = startTime;
+    }
+
     public ChargingSession(int id, Station station, Customer customer) {
         this.id = id;
         this.station = station;

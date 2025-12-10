@@ -19,3 +19,21 @@ Feature: charging tariffs
     When I assign the price catalog to the location
     Then the location should reference the price catalog
     And all stations at the location should inherit this price catalog
+
+    #edge
+  Scenario: Assign price 0
+    Given a price catalog exists with prices of 0.50 EUR per kWh AC and 0.60 EUR per kWh DC
+    And a location exists in the system with that price catalog
+    When I create a new price catalog with prices 0.0 EUR per kWh AC and 0.1 EUR per kWh DC
+    And I try to assign the new price catalog to the location
+    Then I see an error message that says "Price for kWh AC must not be 0"
+    And the new price catalog is not saved to the location
+
+    #error
+  Scenario: Assigning non-existing price catalog
+    Given a price catalog exists with prices of 0.35 EUR per kWh AC and 0.65 EUR per kWh DC
+    And a location exists in the system with that price catalog
+    But no new price catalog exists
+    When I try to add a non-existing price catalog
+    Then I see an error message that says "Please use a valid price catalog"
+    And the price per kWh is still 0.35 for AC and 0.65 for DC

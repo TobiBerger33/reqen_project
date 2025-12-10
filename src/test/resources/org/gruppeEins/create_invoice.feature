@@ -10,13 +10,12 @@ Feature: create invoice
     Then an invoice is created with an amount of "15.20" EUR
     And the invoice is linked to charging session with identifier "101"
 
-
+    #error
   Scenario: Cannot generate invoice for an incomplete charging process
     Given a charging session with identifier "99" exists but is not completed
     When I try to generate an invoice for that charging session
     Then the invoice is not created
     And I see the error-message "Charging session not completed"
-
 
   Scenario: Generate a CSV file for an issued invoice
     When an issued invoice with identifier "5001" exists with customer with identifier "77", amount "18.40" EUR

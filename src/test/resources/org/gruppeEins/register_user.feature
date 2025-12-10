@@ -9,8 +9,9 @@ Feature: register user
     When I provide my name "Alex Meyer", email "alex@example.com", and a secure password
     Then a new customer account is created
     And I receive a customer ID
-    And my account balance is initialized to "0.00"
+    And my account balance is initialized to 0.00
 
+    #edge
   Scenario: Registration with an already registered email
     Given a customer account already exists with the email "benjamin@example.com"
     When I try to register with the email "benjamin@example.com"
@@ -23,8 +24,11 @@ Feature: register user
     Then I see the error message "Required information missing"
     And no customer account is created
 
+    #error
   Scenario: Registration with invalid email address
     Given I am a new user
     When I try to register with the email "alex-example.com"
     Then I see the error message "Invalid email format"
     And no customer account is created
+
+  #rework stepdefs
