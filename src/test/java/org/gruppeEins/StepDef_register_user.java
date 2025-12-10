@@ -26,8 +26,6 @@ public class StepDef_register_user {
         customer = null;
         newCustomer = null;
     }
-    private String errorMessage;
-
 
     @Given("I am a new user without an existing account")
     public void iAmANewUserWithoutAnExistingAccount()

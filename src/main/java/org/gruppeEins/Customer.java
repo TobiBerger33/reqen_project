@@ -12,7 +12,6 @@ public class Customer {
     private String name;
     private String email;
     private double credit = 0.00;
-    private static final List<String> emailList= new ArrayList<>();
 
     public Customer(String name, String email, double initialCredit) {
         this.id = ++nextID;
@@ -115,8 +114,7 @@ public class Customer {
         if(name.isEmpty() || email.isEmpty()) {
             throw new IllegalArgumentException("Required information missing");
         }
-
-        return true;
+        this.name = name;
     }
 
     private boolean validEmail(String email)
@@ -124,10 +122,10 @@ public class Customer {
         if(!email.contains("@") || !email.contains(".")) {
             throw new IllegalArgumentException("Invalid email format");
         }
-        return true;
+        this.email = email;
     }
 
-    private boolean availableEmail(String email)
+    protected Customer(String name, String email)
     {
         if(emailList.contains(email)) {
             throw new IllegalArgumentException("Email already registered");
