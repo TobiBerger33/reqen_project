@@ -23,6 +23,7 @@ Feature: Add new locations
     Then the total number of locations should be 2
     And I should be able to retrieve the location with City "Linz" via its ID
 
+    #error
   Scenario: preventing the addition of a location without address data
     Given I attempt to add a location without an address
     When I execute the add command

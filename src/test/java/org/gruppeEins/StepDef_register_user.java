@@ -26,7 +26,6 @@ public class StepDef_register_user {
         newCustomer = null;
     }
 
-
     @Given("I am a new user without an existing account")
     public void iAmANewUserWithoutAnExistingAccount()
     {
@@ -34,14 +33,16 @@ public class StepDef_register_user {
     }
 
     @When("I provide my name {string}, email {string}, and a secure password")
-    public void iProvideMyNameEmailAndASecurePassword(String arg0, String arg1)
+    public void iProvideMyNameEmailAndASecurePassword(String name, String email)
     {
-        customer = new Customer(arg0, arg1);
+        currentName = name;
+        currentEmail = email;
     }
 
     @Then("a new customer account is created")
     public void aNewCustomerAccountIsCreated()
     {
+        customer = new Customer(currentName, currentEmail);
         assertNotNull(customer);
     }
 
@@ -51,26 +52,24 @@ public class StepDef_register_user {
         assertNotNull(customer.getId());
     }
 
-    @And("my account balance is initialized to {string}")
-    public void myAccountBalanceIsInitializedTo(String arg0)
+    @And("my account balance is initialized to {double}")
+    public void myAccountBalanceIsInitializedTo(double credit)
     {
-        double credit = Double.parseDouble(arg0);
-
         assertEquals(customer.getCredit(), credit);
     }
 
     @Given("a customer account already exists with the email {string}")
-    public void aCustomerAccountAlreadyExistsWithTheEmail(String arg0)
+    public void aCustomerAccountAlreadyExistsWithTheEmail(String email)
     {
-        customer = new Customer("Alex", arg0);
+        customer = new Customer("Alex", email);
         customerManager.addCustomer(customer);
     }
 
     @When("I try to register with the email {string}")
-    public void iTryToRegisterWithTheEmail(String arg0)
+    public void iTryToRegisterWithTheEmail(String email)
     {
         currentName = "Ben";
-        currentEmail = arg0;
+        currentEmail = email;
         try {
             Customer tempCustomer = new Customer(currentName, currentEmail);
             customerManager.addCustomer(tempCustomer);
@@ -81,10 +80,12 @@ public class StepDef_register_user {
     }
 
     @Then("I see the error message {string}")
-    public void iSeeTheErrorMessage(String arg0)
+    public void iSeeTheErrorMessage(String expectedMessage)
     {
-        assertNotNull(exception);
-        assertEquals(arg0, exception.getMessage());
+
+        String errorMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, errorMessage);
     }
 
     @And("no new account is created")

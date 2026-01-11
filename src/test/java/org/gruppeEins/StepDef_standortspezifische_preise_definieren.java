@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class StepDef_standortspezifische_preise_definieren {
 
-    private LocationManager locationManager = new LocationManager();
-    private PriceCatalogManager priceCatalogManager = new PriceCatalogManager();
-    private StationManager stationManager = new StationManager();
+    private final LocationManager locationManager = new LocationManager();
+    private final PriceCatalogManager priceCatalogManager = new PriceCatalogManager();
+    private final StationManager stationManager = new StationManager();
 
-    private Map<String, Location> locationsByName = new HashMap<>();
-    private Map<Integer, Station> stationsById = new HashMap<>();
+    private final Map<String, Location> locationsByName = new HashMap<>();
+    private final Map<Integer, Station> stationsById = new HashMap<>();
 
     private PriceCatalog returnedPriceCatalog;
 
@@ -42,7 +42,7 @@ public class StepDef_standortspezifische_preise_definieren {
         priceCatalogManager.addPriceCatalog(priceCatalog);
 
         Location location = locationsByName.get(locationName);
-        location.setPriceCatalog(priceCatalog);
+        location.updatePriceCatalog(priceCatalog);
     }
 
     @Then("location {string} should have {double} EUR per kWh AC")
