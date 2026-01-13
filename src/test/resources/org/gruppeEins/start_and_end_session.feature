@@ -9,7 +9,6 @@ Feature: start and end charging session
     And a station exists in the system
     When the user starts a charging session with start time "2025-12-03T11:50:55"
     Then a charging session gets created with the station and start time "2025-12-03T11:50:55"
-          #LocalDateTime dateTime = LocalDateTime.parse("2025-12-03T11:50:55");
 
   Scenario: ending current charging session
     Given A user with name "Otto" and email "otto@email.com" exists in the system

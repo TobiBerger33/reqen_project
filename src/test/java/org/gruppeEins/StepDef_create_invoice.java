@@ -26,12 +26,9 @@ public class StepDef_create_invoice {
     private int customerID;
 
 
-    @Given("a completed charging process with identifier {string} exists with a total cost of {string} EUR")
-    public void aCompletedChargingProcessWithIdentifierExistsWithATotalCostOfEUR(String arg0, String arg1)
+    @Given("a completed charging process with identifier {int} exists with a total cost of {double} EUR")
+    public void aCompletedChargingProcessWithIdentifierExistsWithATotalCostOfEUR(int sessionID, double totalCost)
     {
-        sessionID = Integer.parseInt(arg0);
-        totalCost = Double.parseDouble(arg1);
-
         session = new ChargingSession(sessionID, station, customer);
 
         session.end(LocalDateTime.now(), 15.0);
@@ -44,28 +41,22 @@ public class StepDef_create_invoice {
         invoice = new Invoice(session);
     }
 
-    @Then("an invoice is created with an amount of {string} EUR")
-    public void anInvoiceIsCreatedWithAnAmountOfEUR(String arg0)
+    @Then("an invoice is created with an amount of {double} EUR")
+    public void anInvoiceIsCreatedWithAnAmountOfEUR(double amount)
     {
-        double amount = Double.parseDouble(arg0);
-
         assertEquals(amount, invoice.getAmount());
     }
 
-    @And("the invoice is linked to charging session with identifier {string}")
-    public void theInvoiceIsLinkedToChargingProcess(String arg0)
+    @And("the invoice is linked to charging session with identifier {int}")
+    public void theInvoiceIsLinkedToChargingProcess(int id)
     {
-        int id = Integer.parseInt(arg0);
-
         assertEquals(id, invoice.getChargingSession().getId());
         assertEquals(session, invoice.getChargingSession());
     }
 
-    @Given("a charging session with identifier {string} exists but is not completed")
-    public void aChargingProcessExistsButIsNotCompleted(String arg0)
+    @Given("a charging session with identifier {int} exists but is not completed")
+    public void aChargingProcessExistsButIsNotCompleted(int sessionID)
     {
-        sessionID = Integer.parseInt(arg0);
-
         session = new ChargingSession(sessionID, station, customer);
 
         assertNull(session.getEndTime());
@@ -101,13 +92,9 @@ public class StepDef_create_invoice {
 
     }
 
-    @Given("an issued invoice with identifier {string} exists with customer with identifier {string}, amount {string} EUR")
-    public void anIssuedInvoiceExistsWithCustomerAmountEURBillingPeriodAndChargingProcesses(String arg0, String arg1, String arg2)
+    @Given("an issued invoice with identifier {int} exists with customer with identifier {int}, amount {double} EUR")
+    public void anIssuedInvoiceExistsWithCustomerAmountEURBillingPeriodAndChargingProcesses(int invoiceID, int customerID, double totalCost)
     {
-        invoiceID = Integer.parseInt(arg0);
-        customerID = Integer.parseInt(arg1);
-        totalCost = Double.parseDouble(arg2);
-
         newCustomer = new Customer(customerID, "Max", "max@email.com");
         session = new ChargingSession(station, newCustomer);
         session.setTotalCost(totalCost);
@@ -117,9 +104,9 @@ public class StepDef_create_invoice {
     }
 
     @Then("a CSV file named {string} is created")
-    public void aCSVFileNamedIsCreated(String arg0)
+    public void aCSVFileNamedIsCreated(String fileName)
     {
-        String fullPath = String.format("src/main/java/org/gruppeEins/resources/invoices/%s", arg0);
+        String fullPath = String.format("src/main/java/org/gruppeEins/resources/invoices/%s", fileName);
 
         assertTrue(new java.io.File(fullPath).exists());
     }

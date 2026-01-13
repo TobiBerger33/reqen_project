@@ -20,18 +20,16 @@ public class StepDef_add_charging_station
     private int idLocation;
     private int idStation;
 
-    @Then("the charging point {string} is stored in the system")
-    public void theChargingPointIsStoredInTheSystem(String arg0)
+    @Then("the charging point {int} is stored in the system")
+    public void theChargingPointIsStoredInTheSystem(int currentID)
     {
-        int currentID = Integer.parseInt(arg0);
-
         assertNotNull(location.getStationById(currentID));
     }
 
     @And("its initial state is {string}")
-    public void itsInitialStateIs(String arg0)
+    public void itsInitialStateIs(String status)
     {
-        ChargingStatus initStatus = ChargingStatus.valueOf(arg0);
+        ChargingStatus initStatus = ChargingStatus.valueOf(status);
 
         assertEquals(newStation.getStatus(), initStatus);
     }
@@ -42,10 +40,11 @@ public class StepDef_add_charging_station
         assertTrue(location.getStations().contains(newStation));
     }
 
-    @When("I try to add another charging point with identifier {string} to the same location")
-    public void iTryToAddAnotherChargingPointWithIdentifierToTheSameLocation(String arg0)
+    @When("I try to add another charging point with identifier {int} to the same location")
+    public void iTryToAddAnotherChargingPointWithIdentifierToTheSameLocation(int id)
     {
-        idStation = Integer.parseInt(arg0);
+        idStation = id;
+
         assertThrows(IllegalArgumentException.class, () -> {
             newnewStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);});
     }
@@ -58,7 +57,7 @@ public class StepDef_add_charging_station
     }
 
     @And("I see an error message {string}")
-    public void iSeeAnErrorMessage(String arg0)
+    public void iSeeAnErrorMessage(String expectedMessage)
     {
         String message = "";
 
@@ -71,11 +70,11 @@ public class StepDef_add_charging_station
             message = e.getMessage();
         }
 
-        assertEquals(message, arg0);
+        assertEquals(message, expectedMessage);
     }
 
     @Then("I see the following error message {string}")
-    public void iSeeTheErrorMessage(String arg0)
+    public void iSeeTheErrorMessage(String expectedMessage)
     {
         String message = "";
 
@@ -88,7 +87,7 @@ public class StepDef_add_charging_station
             message = e.getMessage();
         }
 
-        assertEquals(message, arg0);
+        assertEquals(message, expectedMessage);
     }
 
     @And("the charging point is not created")
@@ -97,37 +96,32 @@ public class StepDef_add_charging_station
         assertNull(newStation);
     }
 
-    @Given("a location with identifier {string} exists in the system")
-    public void aLocationWithIdentifierExistsInTheSystem(String arg0)
+    @Given("a location with identifier {int} exists in the system")
+    public void aLocationWithIdentifierExistsInTheSystem(int idLocation)
     {
-        idLocation = Integer.parseInt(arg0);
         location = new Location(idLocation, address, priceCat);
     }
 
-    @Given("a location with identifier {string} exists with a station with identifier {string} in the system")
-    public void aLocationWithIdentifierExistsWithAStationWithIdentifierInTheSystem(String arg0, String arg1)
+    @Given("a location with identifier {int} exists with a station with identifier {int} in the system")
+    public void aLocationWithIdentifierExistsWithAStationWithIdentifierInTheSystem(int idLocation, int idStation)
     {
-        idLocation = Integer.parseInt(arg0);
         location = new Location(idLocation, address, priceCat);
 
-        idStation = Integer.parseInt(arg1);
         newStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);
     }
 
-    @When("I try to add a charging point with identifier {string} of type {string} to a location")
-    public void iTryToAddAChargingPointWithIdentifierOfTypeToALocation(String arg0, String arg1)
+    @When("I try to add a charging point with identifier {int} of type {string} to a location")
+    public void iTryToAddAChargingPointWithIdentifierOfTypeToALocation(int idStation, String type)
     {
-        idStation = Integer.parseInt(arg0);
-        ChargingType type = ChargingType.valueOf(arg1);
+        ChargingType chargingType = ChargingType.valueOf(type);
 
         assertThrows(NullPointerException.class, () -> {
-            newStation = new Station(idStation, type, ChargingStatus.IN_OPERATION_FREE, location);});
+            newStation = new Station(idStation, chargingType, ChargingStatus.IN_OPERATION_FREE, location);});
     }
 
-    @When("I add charging station with identifier {string} to that location")
-    public void iAddChargingStationWithIdentifierToThatLocation(String arg0)
+    @When("I add charging station with identifier {int} to that location")
+    public void iAddChargingStationWithIdentifierToThatLocation(int idStation)
     {
-        idStation = Integer.parseInt(arg0);
         newStation = new Station(idStation, ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, location);
     }
 }

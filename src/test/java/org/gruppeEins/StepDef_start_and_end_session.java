@@ -34,6 +34,7 @@ public class StepDef_start_and_end_session
     public void aUserWithNameAndEmailExistsInTheSystem(String name, String email)
     {
         customer = new Customer(name, email);
+        customerManager.addCustomer(customer);
     }
 
     @And("a station exists in the system")
