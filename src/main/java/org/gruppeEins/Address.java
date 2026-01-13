@@ -52,4 +52,9 @@ public class Address {
     public String getCountry() {
         return country;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" + street + " " + houseNumber + ", " + postCode + " " + city + ", " + country + "}";
+    }
 }

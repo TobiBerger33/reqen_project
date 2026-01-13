@@ -109,4 +109,10 @@ public class Location {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        String addressStr = (address != null) ? address.toString() : "No address";
+        return "Location{id=" + id + ", name='" + name + "', address=" + addressStr + ", stations=" + stations.size() + "}";
+    }
 }

@@ -123,4 +123,10 @@ public class Station {
             location.addStation(this);
         }
     }
+
+    @Override
+    public String toString() {
+        String locationName = (location != null) ? location.getName() : "No location";
+        return "Station{id=" + id + ", type=" + type + ", status=" + status + ", location='" + locationName + "'}";
+    }
 }
