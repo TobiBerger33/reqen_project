@@ -30,22 +30,22 @@ public class StepDefs_view_location
 
 
     @Given("the system contains the locations {string}, {string}, and {string}")
-    public void theSystemContainsTheLocationsAnd(String arg0, String arg1, String arg2)
+    public void theSystemContainsTheLocationsAnd(String locName1, String locName2, String locName3)
     {
         try {
-            locationManager.addLocation(new Location(address, arg0, priceCat));
+            locationManager.addLocation(new Location(address, locName1, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         try {
-            locationManager.addLocation(new Location(address, arg1, priceCat));
+            locationManager.addLocation(new Location(address, locName2, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         try {
-            locationManager.addLocation(new Location(address, arg2, priceCat));
+            locationManager.addLocation(new Location(address, locName3, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -63,13 +63,13 @@ public class StepDefs_view_location
     }
 
     @Then("I see a list containing {string}, {string}, and {string}")
-    public void iSeeAListContainingAnd(String arg0, String arg1, String arg2)
+    public void iSeeAListContainingAnd(String locName1, String locName2, String locName3)
     {
         List<String> expectedNames = new ArrayList<>();
 
-        expectedNames.add(arg0);
-        expectedNames.add(arg1);
-        expectedNames.add(arg2);
+        expectedNames.add(locName1);
+        expectedNames.add(locName2);
+        expectedNames.add(locName3);
 
         for (Location loc : allLocations) {
             String currentName = loc.getName();
@@ -79,15 +79,15 @@ public class StepDefs_view_location
     }
 
     @Given("the system contains location {string} with available charging points")
-    public void theSystemContainsLocationWithAvailableChargingPoints(String arg0)
+    public void theSystemContainsLocationWithAvailableChargingPoints(String locName)
     {
         try {
-            locationManager.addLocation(new Location(address, arg0, priceCat));
+            locationManager.addLocation(new Location(address, locName, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        Optional<Location> currentLocation = locationManager.getLocationByName(arg0);
+        Optional<Location> currentLocation = locationManager.getLocationByName(locName);
 
         station1 = new Station(ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, currentLocation.orElse(null));
         station2 = new Station(ChargingType.DC, ChargingStatus.IN_OPERATION_FREE, currentLocation.orElse(null));
@@ -95,24 +95,24 @@ public class StepDefs_view_location
     }
 
     @And("the system contains location {string} with no available charging points")
-    public void theSystemContainsLocationWithNoAvailableChargingPoints(String arg0)
+    public void theSystemContainsLocationWithNoAvailableChargingPoints(String locName)
     {
         try {
-            locationManager.addLocation(new Location(address, arg0, priceCat));
+            locationManager.addLocation(new Location(address, locName, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }    }
 
     @And("the system contains another location {string} with available charging points")
-    public void theSystemContainsAnotherLocationWithAvailableChargingPoints(String arg0)
+    public void theSystemContainsAnotherLocationWithAvailableChargingPoints(String locName)
     {
         try {
-            locationManager.addLocation(new Location(address, arg0, priceCat));
+            locationManager.addLocation(new Location(address, locName, priceCat));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        Optional<Location> currentLocation = locationManager.getLocationByName(arg0);
+        Optional<Location> currentLocation = locationManager.getLocationByName(locName);
 
         station4 = new Station(ChargingType.AC, ChargingStatus.IN_OPERATION_FREE, currentLocation.orElse(null));
         station5 = new Station(ChargingType.DC, ChargingStatus.IN_OPERATION_FREE, currentLocation.orElse(null));
@@ -132,16 +132,16 @@ public class StepDefs_view_location
     }
 
     @Then("I see {string} and {string}")
-    public void iSeeAnd(String arg0, String arg1)
+    public void iSeeAnd(String locName1, String locName2)
     {
-        assertTrue(availableLocations.contains(locationManager.getLocationByName(arg0).orElse(null)));
-        assertTrue(availableLocations.contains(locationManager.getLocationByName(arg1).orElse(null)));
+        assertTrue(availableLocations.contains(locationManager.getLocationByName(locName1).orElse(null)));
+        assertTrue(availableLocations.contains(locationManager.getLocationByName(locName2).orElse(null)));
     }
 
     @And("I do not see {string}")
-    public void iDoNotSee(String arg0)
+    public void iDoNotSee(String locName3)
     {
-        assertFalse(availableLocations.contains(locationManager.getLocationByName(arg0).orElse(null)));
+        assertFalse(availableLocations.contains(locationManager.getLocationByName(locName3).orElse(null)));
     }
 
     @Given("the system contains no locations")
@@ -151,7 +151,7 @@ public class StepDefs_view_location
     }
 
     @Then("I see a message {string}")
-    public void iSeeAMessage(String arg0)
+    public void iSeeAMessage(String expectedMessage)
     {
         String message = "";
         
@@ -163,6 +163,6 @@ public class StepDefs_view_location
             message = e.getMessage();
         }
         
-        assertEquals(arg0, message);
+        assertEquals(expectedMessage, message);
     }
 }

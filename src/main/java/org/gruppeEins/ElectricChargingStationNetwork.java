@@ -6,7 +6,7 @@ import java.util.Optional;
 public class ElectricChargingStationNetwork {
     public static void main(String[] args) throws Exception {
         System.out.println("╔══════════════════════════════════════════════════════════════╗");
-        System.out.println("║     ELECTRIC CHARGING STATION NETWORK - FULL DEMO           ║");
+        System.out.println("║     ELECTRIC CHARGING STATION NETWORK - FULL DEMO            ║");
         System.out.println("╚══════════════════════════════════════════════════════════════╝\n");
 
         // Initialize all managers
