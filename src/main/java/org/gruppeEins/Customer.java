@@ -132,4 +132,9 @@ public class Customer {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{id=" + id + ", name='" + name + "', email='" + email + "', credit=" + String.format("%.2f", credit) + " EUR}";
+    }
 }

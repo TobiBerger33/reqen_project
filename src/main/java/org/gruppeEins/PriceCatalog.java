@@ -66,4 +66,11 @@ public class PriceCatalog {
     public void setMinutePriceDC(double minutePriceDC) {
         this.minutePriceDC = minutePriceDC;
     }
+
+    @Override
+    public String toString() {
+        return "PriceCatalog{id=" + id +
+                ", AC: " + kWhPriceAC + " EUR/kWh, " + minutePriceAC + " EUR/min" +
+                ", DC: " + kWhPriceDC + " EUR/kWh, " + minutePriceDC + " EUR/min}";
+    }
 }

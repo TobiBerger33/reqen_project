@@ -81,4 +81,11 @@ public class Invoice {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String toString() {
+        String customerName = (chargingSession != null && chargingSession.getCustomer() != null)
+            ? chargingSession.getCustomer().getName() : "Unknown";
+        return "Invoice{id=" + id + ", customer='" + customerName + "', amount=" + String.format("%.2f", amount) + " EUR, exported=" + wasExported + "}";
+    }
 }

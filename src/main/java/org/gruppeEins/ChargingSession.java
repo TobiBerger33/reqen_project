@@ -129,4 +129,11 @@ public class ChargingSession {
     public double getEnergy() {
         return energy;
     }
+
+    @Override
+    public String toString() {
+        String customerName = (customer != null) ? customer.getName() : "Unknown";
+        return "ChargingSession{id=" + id + ", customer='" + customerName + "', mode=" + mode +
+               ", duration=" + duration + " min, energy=" + energy + " kWh, cost=" + String.format("%.2f", totalCost) + " EUR}";
+    }
 }
